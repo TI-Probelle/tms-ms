@@ -27,3 +27,8 @@ spring:
     user: ${TMS_MYSQL_USER}
     password: ${TMS_MYSQL_PASSWORD}
     locations: classpath:db/migration
+
+logging:
+  level:
+    org.flywaydb: INFO
+    org.springframework.boot.autoconfigure.flyway: DEBUG
