@@ -1,0 +1,29 @@
+server:
+  port: ${TMS_PORT:8010}
+
+spring:
+  application:
+    name: tms-ms
+
+  profiles:
+    active: ${TMS_PROFILE:dev}
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${TMS_DB_HOST:localhost}:${TMS_MYSQL_TCP_PORT:3306}/${TMS_MYSQL_DATABASE:TMS_db}?useTimezone=true&serverTimezone=UTC
+    username: ${TMS_MYSQL_USER}
+    password: ${TMS_MYSQL_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    url: jdbc:mysql://${TMS_DB_HOST:localhost}:${TMS_MYSQL_TCP_PORT:3306}/${TMS_MYSQL_DATABASE:TMS_db}?useTimezone=true&serverTimezone=UTC
+    user: ${TMS_MYSQL_USER}
+    password: ${TMS_MYSQL_PASSWORD}
+    locations: classpath:db/migration

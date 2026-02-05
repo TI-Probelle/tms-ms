@@ -1,0 +1,18 @@
+services:
+  probelle-tms-mysql-server:
+    container_name: probelle-tms-mysql-server
+    image: mysql:8.0.45
+    environment:
+      - MYSQL_DATABASE=${TMS_MYSQL_DATABASE}
+      - MYSQL_USER=${TMS_MYSQL_USER}
+      - MYSQL_PASSWORD=${TMS_MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${TMS_MYSQL_ROOT_PASSWORD}
+      - MYSQL_TCP_PORT=${TMS_MYSQL_TCP_PORT}
+    ports:
+      - "${TMS_MYSQL_TCP_PORT}:${TMS_MYSQL_TCP_PORT}"
+    networks:
+      - probelle-network
+
+networks:
+  probelle-network:
+    driver: bridge
