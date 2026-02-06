@@ -1,0 +1,335 @@
+{
+  "info": {
+    "name": "TMS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8015/api" },
+    { "key": "regionUuid", "value": "" },
+    { "key": "customerUuid", "value": "" },
+    { "key": "carrierUuid", "value": "" },
+    { "key": "driverUuid", "value": "" },
+    { "key": "invoiceUuid", "value": "" },
+    { "key": "manifestUuid", "value": "" },
+    { "key": "freightTableUuid", "value": "" },
+    { "key": "ediUuid", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Regions",
+      "item": [
+        {
+          "name": "Create Region",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SP-CAMP\",\n  \"name\": \"Campinas\",\n  \"country\": \"BR\",\n  \"state\": \"SP\",\n  \"city\": \"Campinas\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/regions", "host": ["{{baseUrl}}"], "path": ["regions"] }
+          }
+        },
+        {
+          "name": "Get Region By UUID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/regions/{{regionUuid}}", "host": ["{{baseUrl}}"], "path": ["regions", "{{regionUuid}}"] }
+          }
+        },
+        {
+          "name": "List Regions",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/regions?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["regions"], "query": [{"key":"page","value":"0"},{"key":"size","value":"20"}] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"MEGA\",\n  \"name\": \"Mega Vital\",\n  \"defaultRegionUuid\": \"{{regionUuid}}\",\n  \"active\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/customers", "host": ["{{baseUrl}}"], "path": ["customers"] }
+          }
+        },
+        {
+          "name": "Get Customer By UUID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/customers/{{customerUuid}}", "host": ["{{baseUrl}}"], "path": ["customers", "{{customerUuid}}"] }
+          }
+        },
+        {
+          "name": "List Customers",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/customers?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["customers"], "query": [{"key":"page","value":"0"},{"key":"size","value":"20"}] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carriers",
+      "item": [
+        {
+          "name": "Create Carrier",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"TRANSLOG\",\n  \"name\": \"TransLog SP\",\n  \"carrierType\": \"TRANSPORTADORA\",\n  \"docNumber\": \"123456\",\n  \"active\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/carriers", "host": ["{{baseUrl}}"], "path": ["carriers"] }
+          }
+        },
+        {
+          "name": "Get Carrier By UUID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/carriers/{{carrierUuid}}", "host": ["{{baseUrl}}"], "path": ["carriers", "{{carrierUuid}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carrier Drivers",
+      "item": [
+        {
+          "name": "Create Driver",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"carrierUuid\": \"{{carrierUuid}}\",\n  \"name\": \"João Motorista\",\n  \"docNumber\": \"999999\",\n  \"plateMain\": \"ABC1234\",\n  \"plateTrailer\": \"DEF5678\",\n  \"active\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/carrier-drivers", "host": ["{{baseUrl}}"], "path": ["carrier-drivers"] }
+          }
+        },
+        {
+          "name": "List Active Drivers By Carrier",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/carrier-drivers?carrierUuid={{carrierUuid}}", "host": ["{{baseUrl}}"], "path": ["carrier-drivers"], "query": [{"key":"carrierUuid","value":"{{carrierUuid}}"}] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invoices",
+      "item": [
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nfKey\": \"35260212345678000123550010000011111111111111\",\n  \"nfNumber\": \"1111\",\n  \"series\": \"1\",\n  \"model\": \"55\",\n  \"issueDate\": \"2026-02-05\",\n  \"customerUuid\": \"{{customerUuid}}\",\n  \"originRegionUuid\": \"{{regionUuid}}\",\n  \"destRegionUuid\": \"{{regionUuid}}\",\n  \"grossValue\": 18900.00,\n  \"netValue\": 18900.00,\n  \"weightKg\": 320.000,\n  \"volumeQty\": 12,\n  \"status\": \"READY\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/invoices", "host": ["{{baseUrl}}"], "path": ["invoices"] }
+          }
+        },
+        {
+          "name": "Get Invoice By UUID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/invoices/{{invoiceUuid}}", "host": ["{{baseUrl}}"], "path": ["invoices", "{{invoiceUuid}}"] }
+          }
+        },
+        {
+          "name": "Search Invoices",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/invoices?status=READY&customerUuid={{customerUuid}}&page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["invoices"],
+              "query": [
+                { "key": "status", "value": "READY" },
+                { "key": "customerUuid", "value": "{{customerUuid}}" },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Manifests",
+      "item": [
+        {
+          "name": "Create Manifest",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"manifestNo\": \"ROM0001\",\n  \"customerUuid\": \"{{customerUuid}}\",\n  \"carrierUuid\": \"{{carrierUuid}}\",\n  \"originRegionUuid\": \"{{regionUuid}}\",\n  \"destRegionUuid\": \"{{regionUuid}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manifests", "host": ["{{baseUrl}}"], "path": ["manifests"] }
+          }
+        },
+        {
+          "name": "Add Invoices",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoices\": [\n    { \"invoiceUuid\": \"{{invoiceUuid}}\", \"seq\": 1 }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manifests/{{manifestUuid}}/invoices", "host": ["{{baseUrl}}"], "path": ["manifests", "{{manifestUuid}}", "invoices"] }
+          }
+        },
+        {
+          "name": "Lock Manifest",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Conferido\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manifests/{{manifestUuid}}/lock", "host": ["{{baseUrl}}"], "path": ["manifests", "{{manifestUuid}}", "lock"] }
+          }
+        },
+        {
+          "name": "Get Manifest Detailed",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/manifests/{{manifestUuid}}", "host": ["{{baseUrl}}"], "path": ["manifests", "{{manifestUuid}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Manifest Pricing",
+      "item": [
+        {
+          "name": "Price TABLE",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"pricingSource\": \"TABLE\"\n}" },
+            "url": { "raw": "{{baseUrl}}/manifests/{{manifestUuid}}/freight/price", "host": ["{{baseUrl}}"], "path": ["manifests", "{{manifestUuid}}", "freight", "price"] }
+          }
+        },
+        {
+          "name": "Price NEGOTIATED",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pricingSource\": \"NEGOTIATED\",\n  \"pricingMode\": \"FIXED\",\n  \"freightTotal\": 1100.00,\n  \"breakdown\": { \"tripFixed\": 900.00, \"toll\": 140.00, \"unloadHelp\": 60.00 },\n  \"notes\": \"Negociado\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manifests/{{manifestUuid}}/freight/price", "host": ["{{baseUrl}}"], "path": ["manifests", "{{manifestUuid}}", "freight", "price"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Freight Tables",
+      "item": [
+        {
+          "name": "Create Freight Table",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"carrierUuid\": \"{{carrierUuid}}\",\n  \"name\": \"Tabela 2026-01\",\n  \"mode\": \"MIXED\",\n  \"validFrom\": \"2026-01-01\",\n  \"validTo\": \"2026-12-31\",\n  \"active\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/freight-tables", "host": ["{{baseUrl}}"], "path": ["freight-tables"] }
+          }
+        },
+        {
+          "name": "List Freight Tables (by carrier)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/freight-tables?carrierUuid={{carrierUuid}}", "host": ["{{baseUrl}}"], "path": ["freight-tables"], "query": [{"key":"carrierUuid","value":"{{carrierUuid}}"}] }
+          }
+        },
+        {
+          "name": "Create Freight Rule",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"freightTableUuid\": \"{{freightTableUuid}}\",\n  \"originRegionUuid\": \"{{regionUuid}}\",\n  \"destRegionUuid\": \"{{regionUuid}}\",\n  \"weightBreakFrom\": 0.000,\n  \"weightBreakTo\": 1000.000,\n  \"ratePerKg\": 2.10,\n  \"minimumFreight\": 850.00,\n  \"adValoremPct\": 0.60,\n  \"grisPct\": 0.30,\n  \"tollFixed\": 120.00,\n  \"dispatchFixed\": 45.00\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/freight-tables/{{freightTableUuid}}/rules", "host": ["{{baseUrl}}"], "path": ["freight-tables", "{{freightTableUuid}}", "rules"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "EDI",
+      "item": [
+        {
+          "name": "Generate NOTFIS",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"manifestUuid\": \"{{manifestUuid}}\",\n  \"layoutVersion\": \"3.1\"\n}" },
+            "url": { "raw": "{{baseUrl}}/edi/notfis", "host": ["{{baseUrl}}"], "path": ["edi", "notfis"] }
+          }
+        },
+        {
+          "name": "Upload OCOREN",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "carrierUuid", "value": "{{carrierUuid}}", "type": "text" },
+                { "key": "layoutVersion", "value": "5.0", "type": "text" },
+                { "key": "file", "type": "file", "src": "" }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/edi/ocoren/upload", "host": ["{{baseUrl}}"], "path": ["edi", "ocoren", "upload"] }
+          }
+        },
+        {
+          "name": "Get EDI Document",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/edi/documents/{{ediUuid}}", "host": ["{{baseUrl}}"], "path": ["edi", "documents", "{{ediUuid}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delivery Events",
+      "item": [
+        {
+          "name": "List Manifest Events",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/manifests/{{manifestUuid}}/events", "host": ["{{baseUrl}}"], "path": ["manifests", "{{manifestUuid}}", "events"] }
+          }
+        },
+        {
+          "name": "List Invoice Events",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/invoices/{{invoiceUuid}}/events", "host": ["{{baseUrl}}"], "path": ["invoices", "{{invoiceUuid}}", "events"] }
+          }
+        }
+      ]
+    }
+  ]
+}

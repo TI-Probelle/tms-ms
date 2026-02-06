@@ -2,12 +2,16 @@ package br.com.probelle.sistemas.probelle_tms.v1.controllers;
 
 import br.com.probelle.sistemas.probelle_tms.v1.dto.manifest.ManifestRequestDTO;
 import br.com.probelle.sistemas.probelle_tms.v1.dto.manifest.ManifestResponseDTO;
+import br.com.probelle.sistemas.probelle_tms.v1.mappers.ManifestMapper;
+import br.com.probelle.sistemas.probelle_tms.v1.repositories.ManifestRepository;
 import br.com.probelle.sistemas.probelle_tms.v1.services.ManifestService;
 import br.com.probelle.sistemas.probelle_tms.v1.services.model.AddInvoicesRequest;
 import br.com.probelle.sistemas.probelle_tms.v1.services.model.LockRequest;
 import br.com.probelle.sistemas.probelle_tms.v1.services.model.ManifestDetailedResponse;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,10 @@ public class ManifestController {
 
   @Autowired private ManifestService manifestService;
 
+  @Autowired private ManifestRepository manifestRepository;
+
+  @Autowired private ManifestMapper manifestMapper;
+
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ManifestResponseDTO> create(@RequestBody ManifestRequestDTO request) {
     return ResponseEntity.status(HttpStatus.CREATED).body(manifestService.create(request));
@@ -32,6 +40,13 @@ public class ManifestController {
   @GetMapping("/{manifestUuid}")
   public ResponseEntity<ManifestDetailedResponse> getDetailed(@PathVariable UUID manifestUuid) {
     return ResponseEntity.ok(manifestService.getDetailed(manifestUuid));
+  }
+
+  @GetMapping
+  public ResponseEntity<Page<ManifestResponseDTO>> list(Pageable pageable) {
+    Page<ManifestResponseDTO> page =
+        manifestRepository.findAll(pageable).map(manifestMapper::toResponse);
+    return ResponseEntity.ok(page);
   }
 
   @PostMapping(value = "/{manifestUuid}/invoices", consumes = MediaType.APPLICATION_JSON_VALUE)
