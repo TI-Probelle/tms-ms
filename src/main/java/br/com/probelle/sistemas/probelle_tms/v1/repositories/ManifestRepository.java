@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface ManifestRepository extends UuidRepository<Manifest> {
 
-
-
   boolean existsByManifestNo(String manifestNo);
+
+  Optional<Manifest> findByManifestNo(String manifestNo);
 
   @Query(
       """
